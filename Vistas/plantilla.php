@@ -47,31 +47,26 @@ session_start(); // Mantenerlo aquí ya que funciona para tu caso
                     }
                 } else {
                     // Con sesión activa
-                    $cargo = strtolower($_SESSION['Cargo']); // Convertir a minúsculas para consistencia
-                    if ($cargo == 'cajero' || !in_array($cargo, ['gerente', 'admin'])) {
-                        // Para cajeros y otros cargos no autorizados: mostrar solo Menú y Salir
-                        if ($ruta == 'menu') {
-                            echo '<li class="nav-item"><a class="nav-link active" href="index.php?ruta=menu">Menú</a></li>';
-                        } else {
-                            echo '<li class="nav-item"><a class="nav-link" href="index.php?ruta=menu">Menú</a></li>';
-                        }
-                        if ($ruta == 'salir') {
-                            echo '<li class="nav-item"><a class="nav-link active" href="index.php?ruta=salir">Salir</a></li>';
-                        } else {
-                            echo '<li class="nav-item"><a class="nav-link" href="index.php?ruta=salir">Salir</a></li>';
-                        }
+                    $cargo = strtolower($_SESSION['Cargo']);
+                    // Mostrar Menú para todos los usuarios autenticados
+                    if ($ruta == 'menu') {
+                        echo '<li class="nav-item"><a class="nav-link active" href="index.php?ruta=menu">Menú</a></li>';
                     } else {
-                        // Solo para gerentes y administradores: mostrar Inicio y Salir
+                        echo '<li class="nav-item"><a class="nav-link" href="index.php?ruta=menu">Menú</a></li>';
+                    }
+                    // Mostrar Inicio solo para gerentes y administradores
+                    if (in_array($cargo, ['gerente', 'admin'])) {
                         if ($ruta == 'inicio') {
                             echo '<li class="nav-item"><a class="nav-link active" href="index.php?ruta=inicio">Inicio</a></li>';
                         } else {
                             echo '<li class="nav-item"><a class="nav-link" href="index.php?ruta=inicio">Inicio</a></li>';
                         }
-                        if ($ruta == 'salir') {
-                            echo '<li class="nav-item"><a class="nav-link active" href="index.php?ruta=salir">Salir</a></li>';
-                        } else {
-                            echo '<li class="nav-item"><a class="nav-link" href="index.php?ruta=salir">Salir</a></li>';
-                        }
+                    }
+                    // Mostrar Salir para todos los usuarios autenticados
+                    if ($ruta == 'salir') {
+                        echo '<li class="nav-item"><a class="nav-link active" href="index.php?ruta=salir">Salir</a></li>';
+                    } else {
+                        echo '<li class="nav-item"><a class="nav-link" href="index.php?ruta=salir">Salir</a></li>';
                     }
                 }
                 ?>
