@@ -31,7 +31,7 @@ session_start(); // Mantenerlo aquí ya que funciona para tu caso
                 $ruta = isset($_GET['ruta']) ? $_GET['ruta'] : '';
 
                 // Depuración: Verificar el cargo
-                echo "Cargo en sesión: " . (isset($_SESSION['Cargo']) ? $_SESSION['Cargo'] : 'No definido') . "<br>";
+                echo "Cargo en sesión: " . (isset($_SESSION['cargo_actual']) ? $_SESSION['cargo_actual'] : 'No definido') . "<br>";
 
                 // Sin sesión: mostrar solo Registro e Ingreso
                 if (!isset($_SESSION['AutorizarIngreso']) || $_SESSION['AutorizarIngreso'] != "ok") {
@@ -47,7 +47,7 @@ session_start(); // Mantenerlo aquí ya que funciona para tu caso
                     }
                 } else {
                     // Con sesión activa
-                    $cargo = strtolower($_SESSION['Cargo']);
+                    $cargo = strtolower($_SESSION['cargo_actual']);
                     // Mostrar Menú para todos los usuarios autenticados
                     if ($ruta == 'menu') {
                         echo '<li class="nav-item"><a class="nav-link active" href="index.php?ruta=menu">Menú</a></li>';

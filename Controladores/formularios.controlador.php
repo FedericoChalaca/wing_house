@@ -33,20 +33,20 @@ class ControladorFormularios {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $nombre = $_POST['ingreso_nombre'];
             $password = $_POST['ingreso_password'];
-    
+
             $item = "Nombre";
             $valor = $nombre;
             $usuario = ModeloFormularios::modeloSeleccionarRegistros("registro", $item, $valor);
             echo "Usuario devuelto: "; var_dump($usuario); // Depuración
-    
+
             if ($usuario && $usuario['password'] == $password) {
                 session_start(); // Esto debería estar en index.php, pero lo dejamos por ahora
                 $_SESSION['AutorizarIngreso'] = "ok";
-                $_SESSION['Cargo'] = isset($usuario['Cargo']) ? $usuario['Cargo'] : 'sin cargo'; // Asignar valor por defecto
+                $this->establecerCargoActual($usuario['Cargo']); // Llamar al método para asignar el cargo
                 $_SESSION['Nombre'] = $usuario['Nombre'];
-                echo "Asignado Cargo: " . $_SESSION['Cargo'] . "<br>"; // Depuración
-    
-                $cargo = strtolower($_SESSION['Cargo']);
+                echo "Asignado Cargo: " . $_SESSION['cargo_actual'] . "<br>"; // Depuración
+
+                $cargo = strtolower($_SESSION['cargo_actual']);
                 if (in_array($cargo, ['cajero', 'sin cargo', ''])) {
                     echo '<script>
                         window.location = "index.php?ruta=menu";
@@ -57,7 +57,7 @@ class ControladorFormularios {
                     </script>';
                 } else {
                     echo '<script>
-                        window.location = "index.php?ruta=menu";
+                        window.location = "index.php?ruta=menu"; // Redirigir cargos no reconocidos a menú
                     </script>';
                 }
             } else {
@@ -65,6 +65,12 @@ class ControladorFormularios {
             }
         }
     }
+
+    // Nuevo método para establecer el cargo actual
+    private function establecerCargoActual($cargo) {
+        $_SESSION['cargo_actual'] = isset($cargo) ? $cargo : 'sin cargo'; // Asignar valor por defecto si no está definido
+    }
+
     //************* Actualizar información **************
 
     public function ControladorActualizar(){

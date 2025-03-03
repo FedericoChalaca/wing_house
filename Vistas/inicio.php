@@ -1,9 +1,9 @@
 <?php
 // Depuración: Verificar el cargo
-echo "Cargo en sesión: " . (isset($_SESSION['Cargo']) ? $_SESSION['Cargo'] : 'No definido') . "<br>";
+echo "Cargo en sesión: " . (isset($_SESSION['cargo_actual']) ? $_SESSION['cargo_actual'] : 'No definido') . "<br>";
 
 if (!isset($_SESSION['AutorizarIngreso']) || $_SESSION['AutorizarIngreso'] != "ok" ||
-    (isset($_SESSION['Cargo']) && strtolower($_SESSION['Cargo']) != 'gerente' && strtolower($_SESSION['Cargo']) != 'admin')) {
+    (isset($_SESSION['cargo_actual']) && strtolower($_SESSION['cargo_actual']) != 'gerente' && strtolower($_SESSION['cargo_actual']) != 'admin')) {
     echo '<script>
         window.location = "index.php?ruta=menu";
     </script>';
