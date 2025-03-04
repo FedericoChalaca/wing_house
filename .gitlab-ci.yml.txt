@@ -1,0 +1,13 @@
+image: php:7.4
+
+pages:
+  stage: deploy
+  script:
+    - mkdir -p public
+    - cp -r Vistas/ Controladores/ Modelos/ CSS/ images/ doc/ public/  # Copia las carpetas relevantes
+    - rm -rf public/.git  # Elimina el directorio .git si existe
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
